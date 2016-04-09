@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Properties Example</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // device APIs are available
+        //
+        function onDeviceReady() {
+
+            navigator.geolocation.getCurrentPosition(onSuccess);
+
+        function onSuccess(position) {
+            var element = document.getElementById('geolocation');
+           
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+
+                    $.ajax({
+                    url: "https://api.foursquare.com/v2/venues/search?ll="+lat+","+lon+"&oauth_token=B3GOIMZCACJRCG14241LP20L1A1C4EP4SZ531PCYV1ZT5BUH&v=20160409",
+                    type:'get',
+                    dataType: 'json',
+                    xhrFields: {
+                        // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                        // This can be used to set the 'withCredentials' property.
+                        // Set the value to 'true' if you'd like to pass cookies to the server.
+                        // If this is enabled, your server must respond with the header
+                        //'Access-Control-Allow-Credentials: true'.
+                        withCredentials: false
+                    },
+                    success: function (yanit) {
+
+                        
+                        $.each(yanit.response, function (index, value) { //response un içini döndür
+                                //alert(value);
+                             
+                                $.each(value,function(index, venues){ //venues in içindekileri döndür.
+                                    //alert(venues.name);
+                                     //alert(venues.location.lat); //lokasyon un içindekilere ulaşmak için.
+
+                                    $('.mekanlar').append('<div class="row"> id : '+venues.id+'<br>name : '+venues.name+'<br> lat : '+venues.location.lat+'<br> lng : '+venues.location.lng+'<br> distance : '+venues.location.distance+'<br> hereNow-Count : '+venues.hereNow.count+'<br></div><hr><br>');
+
+                                     //alert(venues.hereNow.count); // mekandaki kişi sayısı
+
+                                });
+                             //alert(value.item.unreadCount);
+                        });
+
+                            //data.sort(function(a, b){
+                            // return a.distance-b.distance
+                            //})
+
+                    },
+                });
+        };
+    }
+
+    </script>
+</head>
+<body>
+<div class="mekanlar"></div>
+</body>
+</html>
