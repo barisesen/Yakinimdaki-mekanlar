@@ -17,6 +17,12 @@
 
             navigator.geolocation.getCurrentPosition(onSuccess);
 
+           cordova.plugins.notification.local.schedule({
+                title: "Sa Ben geldim :)",
+                text:"Basladim ..",
+            });
+         
+
         function onSuccess(position) {
             var element = document.getElementById('geolocation');
            
@@ -36,8 +42,9 @@
                         withCredentials: false
                     },
                     success: function (yanit) {
-
                         
+                        navigator.notification.vibrate(1000);
+
                         $.each(yanit.response, function (index, value) { //response un içini döndür
                                 //alert(value);
                              
@@ -48,7 +55,20 @@
                                     $('.mekanlar').append('<div class="row"> id : '+venues.id+'<br>name : '+venues.name+'<br> lat : '+venues.location.lat+'<br> lng : '+venues.location.lng+'<br> distance : '+venues.location.distance+'<br> hereNow-Count : '+venues.hereNow.count+'<br></div><hr><br>');
 
                                      //alert(venues.hereNow.count); // mekandaki kişi sayısı
-
+                                   //$.each(venues.hereNow.groups,function(index, here){
+                                   //) console.log(venues.hereNow.groups.count);
+                                  // if(here.type == "friends")
+                                    //alert("arkadaşların burada");
+                                        //alert(here.items.user.firstname);
+                                        //$.each(here.items,function(index,item){
+                                           //$.each(item.user,function(index,user){
+                                               
+                                            //   alert(user.firstname);
+                                           
+                                          // });
+                                        //});
+                                   //});
+                                   
                                 });
                              //alert(value.item.unreadCount);
                         });
